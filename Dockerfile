@@ -16,10 +16,12 @@ RUN apt-get -y install \
 	gcc \
 	gfortran \
 	g++ \ 
-	curl
+	curl \
+	lua5.2 \
+	liblua5.1-0-dev
 RUN pip install numpy scipy
 
-# torch installation
+# base torch installation
 WORKDIR /home
 RUN curl -sk https://raw.githubusercontent.com/torch/ezinstall/master/install-deps | bash
 RUN git clone https://github.com/torch/distro
@@ -27,6 +29,15 @@ RUN mv distro torch
 WORKDIR /home/torch
 RUN ./install.sh
 
+# luarocks installation
+WORKDIR /home
+RUN wget http://luarocks.org/releases/luarocks-2.2.1.tar.gz
+RUN tar zxpf luarocks-2.2.1.tar.gz
+WORKDIR /home/luarocks-2.2.1
+RUN ./configure
+RUN make bootstrap
 
+# extras for torch
+RUN luarocks install nn nngraph dp rnn image senna torch-ipython cunn cutorch cunnx cudnn
 
 
