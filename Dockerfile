@@ -31,11 +31,17 @@ RUN ./install.sh
 
 # luarocks installation
 WORKDIR /home
-RUN wget http://luarocks.org/releases/luarocks-2.2.1.tar.gz
-RUN tar zxpf luarocks-2.2.1.tar.gz
-WORKDIR /home/luarocks-2.2.1
-RUN ./configure
-RUN make bootstrap
+RUN \
+  wget http://luarocks.org/releases/luarocks-2.2.0.tar.gz && \
+  tar -xzvf luarocks-2.2.0.tar.gz && \
+  rm -f luarocks-2.2.0.tar.gz && \
+  cd luarocks-2.2.0 && \
+  ./configure && \
+  make build && \
+  make install && \
+  make clean && \
+  cd .. && \
+  rm -rf luarocks-2.2.0
 
 # extras for torch
 RUN luarocks install nn nngraph dp rnn image senna torch-ipython cunn cutorch cunnx cudnn
