@@ -44,6 +44,12 @@ RUN \
   rm -rf luarocks-2.2.0
 
 # extras for torch
-RUN luarocks install nn nngraph dp rnn image senna torch-ipython cunn cutorch cunnx cudnn
+RUN luarocks install nn
+RUN luarocks install nngraph 
+RUN luarocks install image
+RUN luarocks install cunn
+RUN luarocks install cutorch
+RUN luarocks install cunnx
+RUN luarocks install cudnn
 
 
